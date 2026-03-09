@@ -213,4 +213,78 @@ searchForm.addEventListener('submit', async event => {
   await searchIssues(query);
 });
 
+const issueModal = document.getElementById('issueModal');
+const modalContent = document.getElementById('modalContent');
+const closeModal = document.getElementById('closeModal');
+
+async function showIssueModal(id) {
+  try {
+    const result = await fetchJson(`${API_BASE}/issue/${id}`);
+    const issue = result.data;
+
+    modalContent.innerHTML = `
+      <h3 class="modal-title">${issue.title}</h3>
+      <p class="modal-description">${issue.description}</p>
+      <div class="modal-grid">
+        <div class="modal-item">
+          <h5>ID</h5>
+          <p>${issue.id}</p>
+        </div>
+        <div class="modal-item">
+          <h5>Status</h5>
+          <p>${issue.status}</p>
+        </div>
+        <div class="modal-item">
+          <h5>Author</h5>
+          <p>${issue.author || 'Unknown'}</p>
+        </div>
+        <div class="modal-item">
+          <h5>Assignee</h5>
+          <p>${issue.assignee || 'Not assigned'}</p>
+        </div>
+        <div class="modal-item">
+          <h5>Priority</h5>
+          <p>${issue.priority || 'N/A'}</p>
+        </div>
+        <div class="modal-item">
+          <h5>Labels</h5>
+          <div>${issue.labels?.length ? issue.labels.map(label => `<span class="badge">${label}</span>`).join(' ') : 'No labels'}</div>
+        </div>
+        <div class="modal-item">
+          <h5>Created At</h5>
+          <p>${formatDate(issue.createdAt)}</p>
+        </div>
+        <div class="modal-item">
+          <h5>Updated At</h5>
+          <p>${formatDate(issue.updatedAt)}</p>
+        </div>
+      </div>
+    `;
+
+    issueModal.classList.remove('hidden');
+  } catch (error) {
+    alert('Unable to load this issue right now.');
+  }
+}
+
+issuesContainer.addEventListener('click', event => {
+  const card = event.target.closest('.issue-card');
+  if (!card) return;
+  showIssueModal(card.dataset.id);
+});
+
+closeModal.addEventListener('click', () => issueModal.classList.add('hidden'));
+
+issueModal.addEventListener('click', event => {
+  if (event.target === issueModal) {
+    issueModal.classList.add('hidden');
+  }
+});
+
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape') {
+    issueModal.classList.add('hidden');
+  }
+});
+
 updateAuthView();
