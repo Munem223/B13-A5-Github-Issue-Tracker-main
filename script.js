@@ -164,4 +164,53 @@ async function loadIssues() {
   }
 }
 
+const tabButtons = document.querySelectorAll('.tab-btn');
+const searchForm = document.getElementById('searchForm');
+const searchInput = document.getElementById('searchInput');
+
+async function searchIssues(query) {
+  try {
+    setLoading(true);
+    state.currentQuery = query;
+    const result = await fetchJson(`${API_BASE}/issues/search?q=${encodeURIComponent(query)}`);
+    const searchedIssues = result.data || [];
+    const filtered = getFilteredIssues(searchedIssues, state.currentFilter);
+    renderIssues(filtered);
+  } catch (error) {
+    emptyState.classList.remove('hidden');
+    emptyState.innerHTML = `<h3>Search failed</h3><p>${error.message}</p>`;
+  } finally {
+    setLoading(false);
+  }
+}
+
+tabButtons.forEach(button => {
+  button.addEventListener('click', async () => {
+    tabButtons.forEach(btn => btn.classList.remove('active'));
+    button.classList.add('active');
+    state.currentFilter = button.dataset.filter;
+
+    if (state.currentQuery.trim()) {
+      await searchIssues(state.currentQuery.trim());
+    } else {
+      const filtered = getFilteredIssues(state.allIssues, state.currentFilter);
+      renderIssues(filtered);
+    }
+  });
+});
+
+searchForm.addEventListener('submit', async event => {
+  event.preventDefault();
+  const query = searchInput.value.trim();
+
+  if (!query) {
+    state.currentQuery = '';
+    const filtered = getFilteredIssues(state.allIssues, state.currentFilter);
+    renderIssues(filtered);
+    return;
+  }
+
+  await searchIssues(query);
+});
+
 updateAuthView();
