@@ -1,0 +1,33 @@
+:root {
+  --bg: #0f172a;
+  --card: #111827;
+  --text: #e5e7eb;
+  --muted: #94a3b8;
+  --line: rgba(255, 255, 255, 0.08);
+  --blue: #3b82f6;
+  --danger: #f87171;
+  --white: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(180deg, #020617 0%, #111827 100%);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.app-shell,
+.login-page,
+.dashboard-page {
+  min-height: 100vh;
+}
