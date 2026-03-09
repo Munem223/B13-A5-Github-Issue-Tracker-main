@@ -85,10 +85,25 @@
 
 - Create a readme file and answer this question on your own. Don’t copy-paste from Google or any AI chatbot. 
     - 1️⃣ What is the difference between var, let, and const?
+  Answer:
+    var, let, and const are used to declare variables. var is function-scoped and can be redeclared, which can cause problems. let is block-scoped and can be updated but not redeclared in the same scope. const is also block-scoped but its value cannot be reassigned.
+
     - 2️⃣ What is the spread operator (...)?
+  Answer:
+    The spread operator ... is used to expand elements of an array or object. It is commonly used to copy arrays, merge arrays, or pass values easily.
+
     - 3️⃣ What is the difference between map(), filter(), and forEach()?
+  Answer:
+    map() creates a new array by transforming each element. filter() creates a new array with elements that match a condition. forEach() simply runs a function for each element but does not return a new array.
+
     - 4️⃣ What is an arrow function?
+
+  Answer:
+    An arrow function is a shorter way to write functions using =>. It makes code cleaner and inherits this from the surrounding scope.
+
     - 5️⃣ What are template literals?
+  Answer:
+    Template literals are strings written with backticks `, allowing variables to be inserted using ${} and supporting multi-line text.
 
 
 ---
